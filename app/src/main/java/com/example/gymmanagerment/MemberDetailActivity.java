@@ -49,7 +49,7 @@ public class MemberDetailActivity extends AppCompatActivity {
 
                         txtName.setText("Tên: " + name);
                         txtPhone.setText("SĐT: " + phone);
-                        txtPackage.setText("Gói tập: " + packageId);
+                        txtPackage.setText("Gói tập: " + packageId + " tháng");
                         txtStartDate.setText("Ngày bắt đầu: " + startDate);
                         txtEndDate.setText("Ngày kết thúc: " + endDate);
                     }

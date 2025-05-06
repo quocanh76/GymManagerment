@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation("androidx.gridlayout:gridlayout:1.0.0")
+    implementation("com.google.android.material:material:1.6.0")
 
     // Firebase Firestore
     add("implementation", platform(libs.firebase.bom))
