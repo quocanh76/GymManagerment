@@ -53,5 +53,6 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.PackageV
             txtName = itemView.findViewById(R.id.txtPackageName);
         }
     }
+
 }
 

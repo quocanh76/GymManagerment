@@ -10,20 +10,20 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    CardView cardMember, cardPackage, cardCheck, cardReport, cardexpired;
+    CardView cardMember, cardPackage, cardCheck, cardReport, cardExpired;
     FloatingActionButton fabThemThanhVien;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // file XML bạn đã tạo
+        setContentView(R.layout.activity_main);
 
         // Ánh xạ các thành phần
         cardMember = findViewById(R.id.cardMember);
         cardPackage = findViewById(R.id.cardPackage);
         cardCheck = findViewById(R.id.cardCheck);
         cardReport = findViewById(R.id.cardReport);
-        cardexpired = findViewById(R.id.cardExpired);
+        cardExpired = findViewById(R.id.cardExpired);
 
         // Xử lý click cho từng thẻ
         cardMember.setOnClickListener(v -> {
@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
         cardPackage.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, PackagesActivity.class));
         });
-//
-//        cardCheck.setOnClickListener(v -> {
-//            startActivity(new Intent(MainActivity.this, CheckActivity.class));
-//        });
+
+        cardCheck.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, AttendanceHistoryActivity.class));
+        });
 //
 //        cardReport.setOnClickListener(v -> {
 //            startActivity(new Intent(MainActivity.this, ReportActivity.class));

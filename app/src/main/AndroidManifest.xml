@@ -46,6 +46,12 @@
             android:name=".EditMemberActivity"
             android:exported="true"
             android:parentActivityName=".MemberActivity" />
+        <activity
+            android:name=".AttendanceHistoryActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+
+
     </application>
 
 </manifest>
