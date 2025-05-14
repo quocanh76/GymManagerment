@@ -5,11 +5,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberViewHolder> {
     private List<Member> memberList;
@@ -37,13 +47,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
     @Override
     public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
         Member member = memberList.get(position);
-
         holder.tvName.setText(member.getName());
 
-        // Sự kiện click
         holder.itemView.setOnClickListener(v -> listener.onMemberClick(position));
         holder.btnEdit.setOnClickListener(v -> listener.onEditClick(position));
         holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(position));
+
     }
 
     @Override

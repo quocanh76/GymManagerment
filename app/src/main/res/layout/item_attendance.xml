@@ -62,7 +62,6 @@
                 android:drawablePadding="4dp"
                 android:text="15 ngày"
                 android:textColor="@color/gray"/>
-
             <Button
                 android:id="@+id/btnCheckinHistory"
                 style="@style/Widget.MaterialComponents.Button.TextButton"

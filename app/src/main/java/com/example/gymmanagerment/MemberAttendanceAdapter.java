@@ -1,5 +1,6 @@
 package com.example.gymmanagerment;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,69 +10,71 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gymmanagerment.Member;
-import com.example.gymmanagerment.R;
-
 import java.util.List;
 
 public class MemberAttendanceAdapter extends RecyclerView.Adapter<MemberAttendanceAdapter.ViewHolder> {
-    private List<Member> members;
-    private OnMemberClickListener listener;
-            public interface OnMemberClickListener {
-            void onMemberClick(String memberId, String memberName); // Khi click vào item
-            void onCheckinHistoryClick(String memberId); // Khi click nút lịch sử
-            void onCheckinTodayClick(String memberId); // Phương thức mới thêm
-        }
 
-    public MemberAttendanceAdapter(List<Member> members, OnMemberClickListener listener) {
+    private List<Member> members;
+    private Context context;
+    private OnMemberClickListener listener;
+
+    public interface OnMemberClickListener {
+        void onMemberClick(String memberId, String memberName);
+        void onCheckinHistoryClick(String memberId);
+        void onCheckinTodayClick(String memberId);
+    }
+
+    public MemberAttendanceAdapter(List<Member> members, Context context, OnMemberClickListener listener) {
         this.members = members;
+        this.context = context;
         this.listener = listener;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvMemberName, tvCheckinStatus, tvCheckinCount;
+        Button btnCheckinHistory;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvMemberName = itemView.findViewById(R.id.tvMemberName);
+            tvCheckinStatus = itemView.findViewById(R.id.tvCheckinStatus);
+            tvCheckinCount = itemView.findViewById(R.id.tvCheckinCount);
+            btnCheckinHistory = itemView.findViewById(R.id.btnCheckinHistory);
+        }
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_member_attendance, parent, false);
+    public MemberAttendanceAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_attendance, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MemberAttendanceAdapter.ViewHolder holder, int position) {
         Member member = members.get(position);
 
         holder.tvMemberName.setText(member.getName());
-        holder.tvCheckinCount.setText(member.getCheckinCount() + " ngày");
 
-        // Xử lý sự kiện click toàn bộ item
-        holder.itemView.setOnClickListener(v ->
-                listener.onMemberClick(member.getId(), member.getName()));
+        if (member.isCheckedInToday()) {
+            holder.tvCheckinStatus.setText("Đã điểm danh");
+            holder.tvCheckinStatus.setBackgroundResource(R.drawable.bg_checkin_status);
+        } else {
+            holder.tvCheckinStatus.setText("Chưa điểm danh");
+            holder.tvCheckinStatus.setBackgroundResource(R.drawable.bg_uncheckin_status);
+        }
 
-        // Xử lý sự kiện click nút lịch sử
+        holder.tvCheckinCount.setText(member.getMonthlyCheckinCount() + " ngày");
+
         holder.btnCheckinHistory.setOnClickListener(v ->
                 listener.onCheckinHistoryClick(member.getId()));
 
+        holder.itemView.setOnClickListener(v ->
+                listener.onMemberClick(member.getId(), member.getName()));
     }
-
 
     @Override
     public int getItemCount() {
         return members.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMemberName, tvCheckinCount, tvCheckinStatus;
-        Button btnCheckinHistory;
-
-        ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvMemberName = itemView.findViewById(R.id.tvMemberName);
-            tvCheckinCount = itemView.findViewById(R.id.tvCheckinCount);
-            tvCheckinStatus = itemView.findViewById(R.id.tvCheckinStatus);
-            btnCheckinHistory = itemView.findViewById(R.id.btnCheckinHistory);
-
-            itemView.setOnClickListener(v ->
-                    listener.onCheckinTodayClick(members.get(getAdapterPosition()).getId()));
-        }
     }
 }

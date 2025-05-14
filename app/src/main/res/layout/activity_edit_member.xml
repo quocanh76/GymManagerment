@@ -58,19 +58,22 @@
 
         <!-- Gói tập -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             app:startIconDrawable="@drawable/ic_fitness_center"
-            app:startIconTint="@color/gray"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            app:startIconTint="@color/gray_600">
 
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtPackage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Gói tập"
-                android:inputType="none"/>
+                android:hint="Chọn gói tập"
+                android:paddingVertical="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Ngày bắt đầu -->

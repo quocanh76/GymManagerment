@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         cardCheck.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, AttendanceHistoryActivity.class));
+            startActivity(new Intent(MainActivity.this, AttendanceActivity.class));
         });
 //
 //        cardReport.setOnClickListener(v -> {

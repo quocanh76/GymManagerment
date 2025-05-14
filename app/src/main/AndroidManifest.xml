@@ -46,10 +46,14 @@
             android:name=".EditMemberActivity"
             android:exported="true"
             android:parentActivityName=".MemberActivity" />
+        <activity android:name=".AttendanceActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AttendanceHistoryActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
+
 
 
     </application>

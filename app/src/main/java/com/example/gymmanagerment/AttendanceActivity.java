@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gymmanagerment.Member;
-import com.example.gymmanagerment.MemberAttendanceAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -37,26 +35,65 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
 
-        // Khởi tạo các view và adapter
         recyclerView = findViewById(R.id.recyclerViewMembers);
         fabTodayCheckin = findViewById(R.id.fabTodayCheckin);
         db = FirebaseFirestore.getInstance();
 
-        adapter = new MemberAttendanceAdapter(members, this);
+        adapter = new MemberAttendanceAdapter(members, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        // Sự kiện click nút điểm danh tất cả
         fabTodayCheckin.setOnClickListener(v -> checkinAllMembers());
 
-        //loadMembers();
+        loadMembersWithCheckinCounts();
     }
 
-    // Hàm điểm danh cho 1 thành viên cụ thể
+    private void loadMembersWithCheckinCounts() {
+        db.collection("Members").get().addOnSuccessListener(memberSnapshots -> {
+            members.clear();
+
+            for (DocumentSnapshot doc : memberSnapshots) {
+                Member member = doc.toObject(Member.class);
+                if (member != null) {
+                    member.setId(doc.getId());
+                    members.add(member);
+                }
+            }
+
+            String currentMonth = new SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(new Date());
+            String today = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+
+            db.collection("Attendance").get().addOnSuccessListener(attSnapshots -> {
+                for (Member member : members) {
+                    int count = 0;
+                    boolean checkedInToday = false;
+
+                    for (DocumentSnapshot att : attSnapshots) {
+                        String date = att.getString("date");
+                        String memberId = att.getString("memberId");
+
+                        if (memberId != null && memberId.equals(member.getId()) && date != null) {
+                            if (date.endsWith(currentMonth)) {
+                                count++;
+                            }
+                            if (date.equals(today)) {
+                                checkedInToday = true;
+                            }
+                        }
+                    }
+
+                    member.setMonthlyCheckinCount(count);
+                    member.setCheckedInToday(checkedInToday);
+                }
+
+                adapter.notifyDataSetChanged();
+            });
+        });
+    }
+
     private void checkinMember(String memberId, String memberName) {
         String today = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
-        // Kiểm tra đã điểm danh hôm nay chưa
         db.collection("Attendance")
                 .whereEqualTo("memberId", memberId)
                 .whereEqualTo("date", today)
@@ -69,7 +106,6 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
                         return;
                     }
 
-                    // Thực hiện điểm danh
                     Map<String, Object> checkinData = new HashMap<>();
                     checkinData.put("memberId", memberId);
                     checkinData.put("date", today);
@@ -77,16 +113,16 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
 
                     db.collection("Attendance").add(checkinData)
                             .addOnSuccessListener(documentReference -> {
-                                // Cập nhật thông tin thành viên
                                 updateMemberCheckinInfo(memberId);
                                 Toast.makeText(this,
                                         "Đã điểm danh cho " + memberName,
                                         Toast.LENGTH_SHORT).show();
+
+                                loadMembersWithCheckinCounts();
                             });
                 });
     }
 
-    // Cập nhật thông tin điểm danh của thành viên
     private void updateMemberCheckinInfo(String memberId) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("lastCheckin", FieldValue.serverTimestamp());
@@ -98,10 +134,7 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
                 .addOnFailureListener(e -> Log.e("FirestoreError", e.getMessage()));
     }
 
-    // Điểm danh tất cả thành viên chưa điểm danh
     private void checkinAllMembers() {
-        String today = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-
         for (Member member : members) {
             if (!member.isCheckedInToday()) {
                 checkinMember(member.getId(), member.getName());
@@ -111,22 +144,19 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
 
     @Override
     public void onMemberClick(String memberId, String memberName) {
-        // Xử lý khi click vào item thành viên
         checkinMember(memberId, memberName);
     }
 
     @Override
     public void onCheckinHistoryClick(String memberId) {
-        // Mở màn hình lịch sử điểm danh
         Intent intent = new Intent(this, AttendanceHistoryActivity.class);
         intent.putExtra("memberId", memberId);
         startActivity(intent);
     }
 
+
     @Override
     public void onCheckinTodayClick(String memberId) {
-        // Xử lý khi click nút điểm danh hôm nay (nếu có nút riêng)
-        // Có thể gọi cùng phương thức checkinMember()
         Member member = findMemberById(memberId);
         if (member != null) {
             checkinMember(memberId, member.getName());

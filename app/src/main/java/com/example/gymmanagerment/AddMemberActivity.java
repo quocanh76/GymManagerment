@@ -113,9 +113,9 @@ public class AddMemberActivity extends AppCompatActivity {
         db.collection("Members")
                 .add(member)
                 .addOnSuccessListener(documentReference -> {
-                    String newMemberId = documentReference.getId();  // <--- lấy ID Firestore
+                    String newMemberId = documentReference.getId();
                     Intent intent = new Intent(AddMemberActivity.this, MemberDetailActivity.class);
-                    intent.putExtra("memberId", newMemberId);         // <--- truyền ID qua intent
+                    intent.putExtra("memberId", newMemberId);
                     startActivity(intent);
                     finish();
                 });

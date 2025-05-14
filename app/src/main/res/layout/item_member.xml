@@ -28,6 +28,7 @@
             android:textStyle="bold"
             tools:text="Nguyễn Văn A" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,5 +71,6 @@
                 android:backgroundTint="#BA4C4C"
                 android:textColor="@color/white" />
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
