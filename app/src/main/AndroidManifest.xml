@@ -53,8 +53,13 @@
             android:name=".AttendanceHistoryActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
-
-
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ExpiredActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
 
     </application>
 

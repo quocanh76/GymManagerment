@@ -3,7 +3,10 @@ package com.example.gymmanagerment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +32,8 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
     private FirebaseFirestore db;
     private MemberAttendanceAdapter adapter;
     private List<Member> members = new ArrayList<>();
+    private List<Member> filteredMembers = new ArrayList<>(); // Danh sách đã lọc
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +42,55 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
 
         recyclerView = findViewById(R.id.recyclerViewMembers);
         fabTodayCheckin = findViewById(R.id.fabTodayCheckin);
+        searchView = findViewById(R.id.searchView);
         db = FirebaseFirestore.getInstance();
 
-        adapter = new MemberAttendanceAdapter(members, this, this);
+        adapter = new MemberAttendanceAdapter(filteredMembers, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         fabTodayCheckin.setOnClickListener(v -> checkinAllMembers());
 
+        setupSearchView();
         loadMembersWithCheckinCounts();
+    }
+
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterMembers(newText);
+                return true;
+            }
+        });
+    }
+
+    private void filterMembers(String query) {
+        filteredMembers.clear();
+
+        if (query.isEmpty()) {
+            filteredMembers.addAll(members);
+        } else {
+            String lowerCaseQuery = query.toLowerCase();
+            for (Member member : members) {
+                if (member.getName().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredMembers.add(member);
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     private void loadMembersWithCheckinCounts() {
         db.collection("Members").get().addOnSuccessListener(memberSnapshots -> {
             members.clear();
+            filteredMembers.clear();
 
             for (DocumentSnapshot doc : memberSnapshots) {
                 Member member = doc.toObject(Member.class);
@@ -59,6 +99,8 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
                     members.add(member);
                 }
             }
+
+            filteredMembers.addAll(members);
 
             String currentMonth = new SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(new Date());
             String today = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
@@ -135,7 +177,7 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
     }
 
     private void checkinAllMembers() {
-        for (Member member : members) {
+        for (Member member : filteredMembers) { // Sử dụng filteredMembers thay vì members
             if (!member.isCheckedInToday()) {
                 checkinMember(member.getId(), member.getName());
             }
@@ -153,7 +195,6 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
         intent.putExtra("memberId", memberId);
         startActivity(intent);
     }
-
 
     @Override
     public void onCheckinTodayClick(String memberId) {

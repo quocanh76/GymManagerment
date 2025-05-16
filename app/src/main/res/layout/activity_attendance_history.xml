@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/main_bg"
     android:padding="8dp">
 
     <com.google.android.material.card.MaterialCardView
@@ -30,6 +31,7 @@
                 android:gravity="center"
                 android:padding="12dp"
                 android:textColor="@color/white"
+                android:backgroundTint="@color/black"
                 android:background="@color/colorPrimary"/>
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="@drawable/divider_vertical"
+        android:showDividers="middle">
+
+        <!-- Thống kê tổng quan -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="THỐNG KÊ TỔNG QUAN"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/black"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <!-- Thành viên -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tvTotalMembers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="150"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thành viên"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <!-- Điểm danh -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tvTotalCheckins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,234"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lượt điểm danh"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Thống kê hôm nay -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ĐIỂM DANH HÔM NAY"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/black"/>
+
+                <ProgressBar
+                    android:id="@+id/progressToday"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="16dp"
+                    android:progress="60"
+                    android:progressTint="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tvTodayCheckins"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="15/25 lượt"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Top thành viên -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTopMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TOP THÀNH VIÊN"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/black"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Top thành viên -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTopPackages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TOP GÓI THÁNG"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:drawablePadding="8dp"
+                    android:drawableTint="@color/black"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

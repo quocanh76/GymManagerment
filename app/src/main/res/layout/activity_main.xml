@@ -6,20 +6,28 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
     tools:context=".MainActivity">
 
-    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:backgroundTint="@color/black"
-        app:title="Gym Bro"
-        app:titleTextColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/black"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Custom title view -->
+        <include
+            layout="@drawable/toolbar_custom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- Grid layout container -->
     <androidx.gridlayout.widget.GridLayout
@@ -51,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="#B6B09F"
                 android:gravity="center">
 
                 <ImageView
@@ -62,6 +71,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"/>
             </LinearLayout>
@@ -82,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="#B6B09F"
                 android:gravity="center">
 
                 <ImageView
@@ -93,6 +104,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"/>
             </LinearLayout>
@@ -112,7 +124,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="#B6B09F"
                 android:gravity="center">
+
 
                 <ImageView
                     android:src="@android:drawable/ic_menu_today"
@@ -123,6 +137,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"/>
             </LinearLayout>
@@ -142,6 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="#B6B09F"
                 android:gravity="center">
 
                 <ImageView
@@ -153,6 +169,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"/>
             </LinearLayout>
@@ -172,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:background="#B6B09F"
                 android:gravity="center">
 
                 <ImageView
@@ -183,6 +201,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"/>
             </LinearLayout>

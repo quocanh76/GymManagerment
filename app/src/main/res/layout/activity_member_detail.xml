@@ -8,6 +8,7 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
+    android:background="@color/white"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -15,6 +16,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:background="@color/white"
         android:padding="16dp">
 
         <!-- Header với tên thành viên -->

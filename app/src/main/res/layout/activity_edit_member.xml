@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Chọn gói tập"
                 android:paddingVertical="16dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Ngày bắt đầu"
                 android:inputType="date"
-                android:focusable="false"
+                android:focusable="true"
                 android:clickable="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -18,14 +18,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Ánh xạ các thành phần
         cardMember = findViewById(R.id.cardMember);
         cardPackage = findViewById(R.id.cardPackage);
         cardCheck = findViewById(R.id.cardCheck);
         cardReport = findViewById(R.id.cardReport);
         cardExpired = findViewById(R.id.cardExpired);
 
-        // Xử lý click cho từng thẻ
         cardMember.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, MemberActivity.class));
         });
@@ -38,12 +36,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, AttendanceActivity.class));
         });
 //
-//        cardReport.setOnClickListener(v -> {
-//            startActivity(new Intent(MainActivity.this, ReportActivity.class));
-//        });
+        cardReport.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
+        });
 //
-//        cardExpired.setOnClickListener(v -> {
-//            startActivity(new Intent(MainActivity.this, ExpiredActivity.class));
-//        });
+        cardExpired.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ExpiredActivity.class));
+        });
     }
 }

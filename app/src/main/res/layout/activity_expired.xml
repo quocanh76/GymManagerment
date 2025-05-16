@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Phần đã hết hạn -->
+    <TextView
+        android:id="@+id/tvExpiredTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đã hết hạn"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <ListView
+        android:id="@+id/lvExpired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Phần sắp hết hạn -->
+    <TextView
+        android:id="@+id/tvAboutToExpireTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sắp hết hạn &lt; 1 tháng"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <ListView
+        android:id="@+id/lvAboutToExpire"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

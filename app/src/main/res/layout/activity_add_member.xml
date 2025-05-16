@@ -71,12 +71,11 @@
                 android:layout_height="wrap_content"
                 android:hint="Chọn gói tập"
                 android:paddingVertical="16dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Ngày bắt đầu (nên dùng date picker) -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"

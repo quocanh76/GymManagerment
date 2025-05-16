@@ -19,14 +19,12 @@ public class MemberDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_detail);
 
-        // Ánh xạ view
         txtName = findViewById(R.id.txtName);
         txtPhone = findViewById(R.id.txtPhone);
         txtPackage = findViewById(R.id.txtPackageId);
         txtStartDate = findViewById(R.id.txtStartDate);
         txtEndDate = findViewById(R.id.txtEndDate);
 
-        // Nhận ID từ intent
         memberId = getIntent().getStringExtra("memberId");
 
         db = FirebaseFirestore.getInstance();

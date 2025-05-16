@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="#EAE4D5"
         android:padding="16dp">
 
         <TextView
@@ -56,7 +57,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#A6CC92"
+                android:backgroundTint="#2FFF00"
                 android:layout_weight="1"
                 android:text="Sửa"
                 android:textColor="?attr/colorPrimary" />
@@ -68,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Xóa"
-                android:backgroundTint="#BA4C4C"
+                android:backgroundTint="#D00F0F"
                 android:textColor="@color/white" />
         </LinearLayout>
 

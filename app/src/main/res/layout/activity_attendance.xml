@@ -3,31 +3,43 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="?attr/colorPrimary"
+            android:backgroundTint="@color/black"
             android:elevation="4dp"
             app:title="Danh sách thành viên"
             app:titleTextColor="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/second_gray"
+        android:queryHint="Tìm kiếm theo tên..."
+        android:layout_marginTop="50dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMembers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginBottom="80dp" />
+        android:layout_marginTop="50dp"
+        android:padding="20dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabTodayCheckin"
