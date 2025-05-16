@@ -78,4 +78,24 @@ Sử dụng **FireBase** tích hợp sẵn trên Google với các bảng dữ l
 | IDE phát triển | Android Studio                      |
 
 ---
+## 📷 Hình ảnh minh họa  
+ <br>
+<img src="https://github.com/user-attachments/assets/ec88036c-3820-4dc8-8bae-f84b86de22c3" width="100"/>
+<img src="https://github.com/user-attachments/assets/eadb46e8-47a5-4e19-b13f-769322c1b310" width="100"/>
+<img src="https://github.com/user-attachments/assets/2d8395aa-bb9e-4546-a5e3-3357a42bfa03" width="100"/>
+<img src="https://github.com/user-attachments/assets/8ebfa940-cc5e-4543-8a9d-8f190f435f47" width="100"/>
+<img src="https://github.com/user-attachments/assets/a1703a40-9df3-474e-8184-ab76bd9159aa" width="100"/>
+<img src="https://github.com/user-attachments/assets/3d39791a-677e-4da3-ada4-fb5734074c79" width="100"/>
+
+## Tác Giả
+Ứng dụng được phát triển bởi:
+**Nhóm 27**
+<br>
+**21200026 - Nguyễn Trường An**
+<br>
+**21200027 - Hà Quốc Anh**.  
+
+
+
+
 
