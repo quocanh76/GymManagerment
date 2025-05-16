@@ -87,7 +87,7 @@ Sử dụng **FireBase** tích hợp sẵn trên Google với các bảng dữ l
 <img src="https://github.com/user-attachments/assets/a1703a40-9df3-474e-8184-ab76bd9159aa" width="100"/>
 <img src="https://github.com/user-attachments/assets/3d39791a-677e-4da3-ada4-fb5734074c79" width="100"/>
 
-## Tác Giả
+## 📧 Tác Giả  
 Ứng dụng được phát triển bởi:
 **Nhóm 27**
 <br>
