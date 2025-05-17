@@ -95,11 +95,16 @@ public class AddMemberActivity extends AppCompatActivity {
 
         int packageValue;
         try {
-            packageValue = Integer.parseInt(packagename);  // dùng giá trị số
+            packageValue = Integer.parseInt(packagename);
+            if (packageValue <= 0 || packageValue > 12) {
+                Toast.makeText(this, "Gói tháng phải từ 1 đến 12", Toast.LENGTH_SHORT).show();
+                return;
+            }
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Gói tháng phải là số", Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         String enddate = calculateEndDate(startdate, packageValue);
 

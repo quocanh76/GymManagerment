@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
@@ -143,5 +144,18 @@ public class MemberActivity extends AppCompatActivity implements MemberAdapter.M
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi khi xóa: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+        deleteMemberWithAttendance(memberId);
     }
+    private void deleteMemberWithAttendance(String memberId) {
+        db.collection("Attendance")
+                .whereEqualTo("memberId", memberId)
+                .get()
+                .addOnSuccessListener(attSnapshots -> {
+                    for (DocumentSnapshot doc : attSnapshots) {
+                        doc.getReference().delete();
+                    }
+                });
+    }
+
+
 }

@@ -136,34 +136,30 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
     private void checkinMember(String memberId, String memberName) {
         String today = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
-        db.collection("Attendance")
-                .whereEqualTo("memberId", memberId)
-                .whereEqualTo("date", today)
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (!querySnapshot.isEmpty()) {
-                        Toast.makeText(this,
-                                memberName + " đã điểm danh hôm nay",
-                                Toast.LENGTH_SHORT).show();
-                        return;
+        db.collection("Members").document(memberId).get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        String endDateStr = doc.getString("end_date");
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                            Date endDate = sdf.parse(endDateStr);
+                            Date now = new Date();
+
+                            if (endDate != null && now.after(endDate)) {
+                                Toast.makeText(this, memberName + " đã hết hạn, không thể điểm danh", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(this, "Lỗi định dạng ngày: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // Tiếp tục điểm danh nếu còn hạn
+                        performCheckin(memberId, memberName, today);
                     }
-
-                    Map<String, Object> checkinData = new HashMap<>();
-                    checkinData.put("memberId", memberId);
-                    checkinData.put("date", today);
-                    checkinData.put("timestamp", FieldValue.serverTimestamp());
-
-                    db.collection("Attendance").add(checkinData)
-                            .addOnSuccessListener(documentReference -> {
-                                updateMemberCheckinInfo(memberId);
-                                Toast.makeText(this,
-                                        "Đã điểm danh cho " + memberName,
-                                        Toast.LENGTH_SHORT).show();
-
-                                loadMembersWithCheckinCounts();
-                            });
                 });
     }
+
 
     private void updateMemberCheckinInfo(String memberId) {
         Map<String, Object> updates = new HashMap<>();
@@ -212,4 +208,29 @@ public class AttendanceActivity extends AppCompatActivity implements MemberAtten
         }
         return null;
     }
+    private void performCheckin(String memberId, String memberName, String today) {
+        db.collection("Attendance")
+                .whereEqualTo("memberId", memberId)
+                .whereEqualTo("date", today)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        Toast.makeText(this, memberName + " đã điểm danh hôm nay", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Map<String, Object> checkinData = new HashMap<>();
+                    checkinData.put("memberId", memberId);
+                    checkinData.put("date", today);
+                    checkinData.put("timestamp", FieldValue.serverTimestamp());
+
+                    db.collection("Attendance").add(checkinData)
+                            .addOnSuccessListener(documentReference -> {
+                                updateMemberCheckinInfo(memberId);
+                                Toast.makeText(this, "Đã điểm danh cho " + memberName, Toast.LENGTH_SHORT).show();
+                                loadMembersWithCheckinCounts();
+                            });
+                });
+    }
+
 }
