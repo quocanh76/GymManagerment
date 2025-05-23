@@ -1,6 +1,5 @@
 package com.example.gymmanagerment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +25,7 @@ public class PackagesActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewPackages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         packageList = new ArrayList<>();
         adapter = new PackageAdapter(packageList, this);
         recyclerView.setAdapter(adapter);
@@ -35,15 +35,26 @@ public class PackagesActivity extends AppCompatActivity {
     }
 
     private void loadPackages() {
-        db.collection("Packages").get().addOnSuccessListener(queryDocumentSnapshots -> {
-            packageList.clear();
-            for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                Package pack = doc.toObject(Package.class);
-                pack = new Package(doc.getId(), pack.getName(), pack.getDuration());
-                packageList.add(pack);
-            }
-            adapter.notifyDataSetChanged();
-        });
-    }
-}
+        db.collection("Packages")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    packageList.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        String id = doc.getId();
+                        String name = doc.getString("name");
+                        int duration = doc.getLong("duration").intValue();
+                        int price = doc.getLong("price").intValue();
 
+                        Package pack = new Package(id, name, duration, price);
+                        packageList.add(pack);
+                    }
+
+                    packageList.sort((p1, p2) -> Integer.compare(p1.getDuration(), p2.getDuration()));
+
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                });
+    }
+
+}

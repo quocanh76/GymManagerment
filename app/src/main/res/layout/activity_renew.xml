@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_100"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_warning"
+            android:contentDescription="Warning icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thành viên hết hạn"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/white">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lvExpiredMembers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="1dp"
+                android:scrollbars="none"
+                android:paddingVertical="8dp"
+                android:fastScrollEnabled="true"
+                android:clipToPadding="false"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"/>
+
+            <TextView
+                android:id="@+id/tvEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="🎉 Không có thành viên hết hạn"
+                android:textSize="16sp"
+                android:textColor="@color/gray_600"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

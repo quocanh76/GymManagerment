@@ -1,15 +1,14 @@
 package com.example.gymmanagerment;
 
-import static java.lang.Integer.parseInt;
-
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,107 +22,188 @@ import java.util.Locale;
 import java.util.Map;
 
 public class AddMemberActivity extends AppCompatActivity {
-    EditText edtName, edtPhone, edtstart, edtpackage;
-    Button btnSave;
-    FirebaseFirestore db;
-    String endDate;
+    private EditText edtName, edtPhone, edtStart, edtPackage;
+    private FirebaseFirestore db;
+    private Map<String, Object> pendingMember;
+    private ProgressDialog progressDialog;
 
+    private static final int PAYMENT_REQUEST_CODE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member);
 
+        initializeViews();
+        setupFirestore();
+        setupDatePicker();
+        setupSaveButton();
+    }
+
+    private void initializeViews() {
         edtName = findViewById(R.id.edtName);
         edtPhone = findViewById(R.id.edtPhone);
-        edtpackage = findViewById(R.id.edtpackage);
-        edtstart = findViewById(R.id.edtstart);
-        btnSave = findViewById(R.id.btnSave);
+        edtPackage = findViewById(R.id.edtpackage);
+        edtStart = findViewById(R.id.edtstart);
+        Button btnSave = findViewById(R.id.btnSave);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("\u0110ang x\u1eed l\u00fd...");
+        progressDialog.setCancelable(false);
+    }
+
+    private void setupFirestore() {
         db = FirebaseFirestore.getInstance();
-        btnSave.setOnClickListener(v -> saveMember());
-
-        edtstart.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    AddMemberActivity.this,
-                    (view, year1, month1, dayOfMonth) -> {
-                        // Định dạng ngày và hiển thị
-                        String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, month1 + 1, year1);
-                        edtstart.setText(selectedDate);
-                    },
-                    year, month, day
-            );
-            datePickerDialog.show();
-        });
-
-
     }
 
-    private String calculateEndDate(String startDateStr, int packageDays) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private void setupDatePicker() {
+        edtStart.setOnClickListener(v -> showDatePicker());
+    }
+
+    private void setupSaveButton() {
+        findViewById(R.id.btnSave).setOnClickListener(v -> validateAndPrepareMember());
+    }
+
+    private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
-        try {
-            Date startDate = sdf.parse(startDateStr);
-            if (startDate != null) {
-                calendar.setTime(startDate);
-                calendar.add(Calendar.DAY_OF_MONTH, 30 * packageDays); // Cộng ngày
-                return sdf.format(calendar.getTime());   // Trả về chuỗi ngày
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
+        new DatePickerDialog(
+                this,
+                (view, year, month, day) -> edtStart.setText(formatDate(day, month + 1, year)),
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show();
     }
 
+    private String formatDate(int day, int month, int year) {
+        return String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+    }
 
-    private void saveMember() {
+    private void validateAndPrepareMember() {
         String name = edtName.getText().toString().trim();
         String phone = edtPhone.getText().toString().trim();
-        String packagename = edtpackage.getText().toString().trim();
-        String startdate = edtstart.getText().toString().trim();
+        String packageId = edtPackage.getText().toString().trim();
+        String startDate = edtStart.getText().toString().trim();
 
-        // Kiểm tra đầu vào
-        if (name.isEmpty() || phone.isEmpty() || packagename.isEmpty() || startdate.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            return;
+        if (validateInputs(name, phone, packageId, startDate)) {
+            fetchPackageDetails(packageId, name, phone, startDate);
         }
+    }
 
-        int packageValue;
-        try {
-            packageValue = Integer.parseInt(packagename);
-            if (packageValue <= 0 || packageValue > 12) {
-                Toast.makeText(this, "Gói tháng phải từ 1 đến 12", Toast.LENGTH_SHORT).show();
-                return;
+    private boolean validateInputs(String... inputs) {
+        for (String input : inputs) {
+            if (input.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
+                return false;
             }
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Gói tháng phải là số", Toast.LENGTH_SHORT).show();
-            return;
         }
+        return true;
+    }
 
+    private void fetchPackageDetails(String packageId, String name, String phone, String startDate) {
+        progressDialog.show();
 
-        String enddate = calculateEndDate(startdate, packageValue);
+        db.collection("Packages").document(packageId)
+                .get()
+                .addOnSuccessListener(document -> {
+                    progressDialog.dismiss();
 
-        Map<String, Object> member = new HashMap<>();
-        member.put("name", name);
-        member.put("phone", phone);
-        member.put("package_id", packagename);
-        member.put("start_date", startdate);
-        member.put("end_date", enddate);
+                    if (document.exists()) {
+                        try {
+                            Long priceObj = document.getLong("price");
+                            Long durationObj = document.getLong("duration");
 
-        db.collection("Members")
-                .add(member)
-                .addOnSuccessListener(documentReference -> {
-                    String newMemberId = documentReference.getId();
-                    Intent intent = new Intent(AddMemberActivity.this, MemberDetailActivity.class);
-                    intent.putExtra("memberId", newMemberId);
-                    startActivity(intent);
-                    finish();
+                            if (priceObj == null || durationObj == null) {
+                                throw new Exception("Thiếu thông tin gói tập");
+                            }
+
+                            long price = priceObj;
+                            long duration = durationObj;
+
+                            preparePendingMember(name, phone, startDate, document.getId(), duration);
+                            launchPaymentActivity(price);
+
+                        } catch (Exception e) {
+                            Toast.makeText(this, "Lỗi dữ liệu gói tập: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Không tìm thấy gói tập", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Lỗi lấy thông tin gói tập: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-}
 
+    private void preparePendingMember(String name, String phone, String startDate, String packageId, long duration) {
+        pendingMember = new HashMap<>();
+        pendingMember.put("name", name);
+        pendingMember.put("phone", phone);
+        pendingMember.put("package_id", packageId);
+        pendingMember.put("start_date", startDate);
+        pendingMember.put("end_date", calculateEndDate(startDate, (int) duration));
+    }
+
+    private String calculateEndDate(String startDate, int months) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date date = sdf.parse(startDate);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.MONTH, months);
+
+            return sdf.format(calendar.getTime());
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private void launchPaymentActivity(long price) {
+        Intent intent = new Intent(this, PaymentActivity.class);
+        intent.putExtra("PRICE", price);
+        startActivityForResult(intent, PAYMENT_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PAYMENT_REQUEST_CODE) {
+            handlePaymentResult(resultCode);
+        }
+    }
+
+    private void handlePaymentResult(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            saveMemberToFirestore();
+        } else {
+            Toast.makeText(this, "Lỗi thanh toán", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveMemberToFirestore() {
+        progressDialog.show();
+
+        db.collection("Members")
+                .add(pendingMember)
+                .addOnSuccessListener(ref -> {
+                    progressDialog.dismiss();
+                    navigateToMemberDetail(ref.getId());
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Lỗi lưu thông tin hội viên: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void navigateToMemberDetail(String memberId) {
+        Intent intent = new Intent(this, MemberDetailActivity.class);
+        intent.putExtra("MEMBER_ID", memberId);
+        startActivity(intent);
+        finish();
+    }
+}

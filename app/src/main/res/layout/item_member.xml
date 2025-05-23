@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#EAE4D5"
+        android:background="#6B696B"
         android:padding="16dp">
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
-            android:background="#787473" />
+            android:background="#CCC6CC"/>
 
         <!-- Action buttons -->
         <LinearLayout
@@ -57,10 +57,10 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#2FFF00"
+                android:backgroundTint="#254B80"
                 android:layout_weight="1"
                 android:text="Sửa"
-                android:textColor="?attr/colorPrimary" />
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnDelete"
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Xóa"
-                android:backgroundTint="#D00F0F"
+                android:backgroundTint="@color/gym_primary"
                 android:textColor="@color/white" />
         </LinearLayout>
 

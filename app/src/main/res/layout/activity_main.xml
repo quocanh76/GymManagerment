@@ -9,6 +9,7 @@
     android:background="@drawable/main_bg"
     tools:context=".MainActivity">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -20,7 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Custom title view -->
         <include
             layout="@drawable/toolbar_custom"
             android:layout_width="wrap_content"
@@ -29,20 +29,19 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Grid layout container -->
+    <!-- Top GridLayout (3x2) -->
     <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridLayout"
+        android:id="@+id/topGrid"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="16dp"
-        app:columnCount="2"
-        app:rowCount="3"
+        app:columnCount="3"
+        app:rowCount="2"
         app:alignmentMode="alignMargins"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/videoAd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
 
         <!-- Card 1: Thành viên -->
         <androidx.cardview.widget.CardView
@@ -59,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="#B6B09F"
+                android:background="#6B696B"
                 android:gravity="center">
 
                 <ImageView
@@ -72,12 +71,12 @@
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Repeat similar structure for other cards -->
+        <!-- Card 2: Gói tập -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardPackage"
             android:layout_width="0dp"
@@ -92,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="#B6B09F"
+                android:background="#6B696B"
                 android:gravity="center">
 
                 <ImageView
@@ -105,11 +104,12 @@
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Card 3: Điểm danh -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardCheck"
             android:layout_width="0dp"
@@ -124,9 +124,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="#B6B09F"
+                android:background="#6B696B"
                 android:gravity="center">
-
 
                 <ImageView
                     android:src="@android:drawable/ic_menu_today"
@@ -138,11 +137,12 @@
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Card 4: Thống kê -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardReport"
             android:layout_width="0dp"
@@ -157,7 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="#B6B09F"
+                android:background="#6B696B"
                 android:gravity="center">
 
                 <ImageView
@@ -170,11 +170,12 @@
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Card 5: Hết hạn -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardExpired"
             android:layout_width="0dp"
@@ -189,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="#B6B09F"
+                android:background="#6B696B"
                 android:gravity="center">
 
                 <ImageView
@@ -202,10 +203,71 @@
                     android:textStyle="bold"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <!-- Card 6: Gia hạn -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardRenew"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#6B696B"
+                android:gravity="center">
+
+                <ImageView
+                    android:src="@android:drawable/ic_menu_upload"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp" />
+                <TextView
+                    android:text="Gia hạn"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
+    <ImageView
+        android:id="@+id/videoAd"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/main_view"
+        app:layout_constraintTop_toBottomOf="@id/topGrid"
+        app:layout_constraintBottom_toTopOf="@id/bottomGrid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Bottom GridLayout (3x1) -->
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/bottomGrid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:columnCount="3"
+        app:rowCount="1"
+        app:alignmentMode="alignMargins"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoAd">
 
     </androidx.gridlayout.widget.GridLayout>
 
