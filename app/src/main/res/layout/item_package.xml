@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#CAC7CA"
         android:padding="16dp">
 
         <!-- Icon -->
@@ -47,6 +47,14 @@
                 android:textColor="@color/purple"
                 android:textStyle="bold"
                 tools:text="Gói tập Premium"/>
+            <TextView
+                android:id="@+id/txtPackagePrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textStyle="italic"
+                tools:text="Giá: 500.000đ" />
 
             <TextView
                 android:id="@+id/txtPackageDetails"

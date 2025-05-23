@@ -12,13 +12,18 @@
         android:theme="@style/Theme.GymManagerment">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".MemberActivity"
@@ -60,6 +65,12 @@
         <activity android:name=".ExpiredActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".RenewActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".PaymentActivity"
+            android:exported="true"
+            android:parentActivityName=".AddMemberActivity" />
 
     </application>
 

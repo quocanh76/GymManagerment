@@ -16,6 +16,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class MemberActivity extends AppCompatActivity implements MemberAdapter.MemberClickListener {
 
     private FirebaseFirestore db;
@@ -25,6 +27,8 @@ public class MemberActivity extends AppCompatActivity implements MemberAdapter.M
     private List<Member> memberList;
     private List<Member> allMembers;
     private SearchView searchView;
+
+    private static final int ADD_MEMBER_REQUEST_CODE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,8 @@ public class MemberActivity extends AppCompatActivity implements MemberAdapter.M
 
         // Thêm thành viên
         btnAddMember.setOnClickListener(v -> {
-            startActivity(new Intent(MemberActivity.this, AddMemberActivity.class));
+            Intent intent = new Intent(MemberActivity.this, AddMemberActivity.class);
+            startActivityForResult(intent, ADD_MEMBER_REQUEST_CODE);
         });
     }
 
@@ -155,6 +160,26 @@ public class MemberActivity extends AppCompatActivity implements MemberAdapter.M
                         doc.getReference().delete();
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_MEMBER_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            String newMemberId = data.getStringExtra("MEMBER_ID");
+
+            if (newMemberId != null) {
+                // Delay nhẹ để Firestore load xong rồi mở chi tiết
+                recyclerView.postDelayed(() -> openMemberDetail(newMemberId), 500);
+            }
+        }
+    }
+
+    private void openMemberDetail(String memberId) {
+        Intent intent = new Intent(this, MemberDetailActivity.class);
+        intent.putExtra("memberId", memberId);
+        startActivity(intent);
     }
 
 
